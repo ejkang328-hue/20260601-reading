@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>꿈나무 독서 타이머 대시보드</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 배경 데코레이션 블러 서클 -->
+        <div class="blur-circle circle-1"></div>
+        <div class="blur-circle circle-2"></div>
+        <div class="blur-circle circle-3"></div>
+
+        <!-- 메인 헤더 -->
+        <header class="main-header">
+            <div class="logo-area">
+                <i data-lucide="book-open" class="header-icon"></i>
+                <div class="title-group">
+                    <h1>지혜의 숲 독서 타이머</h1>
+                    <p class="subtitle">우리 반의 차곡차곡 독서 시간 누적판</p>
+                </div>
+            </div>
+            <div class="time-area">
+                <div class="clock-icon-wrapper">
+                    <i data-lucide="clock"></i>
+                </div>
+                <div class="clock-display">
+                    <span id="current-date" class="date-text">2026년 06월 02일</span>
+                    <span id="current-time" class="time-text">09:00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 상단 대시보드 위젯 (오늘의 할일 & 교사 제어) -->
+        <section class="top-widgets">
+            <!-- 오늘의 할일 (Todo Board) -->
+            <div class="widget-card todo-widget">
+                <div class="widget-header">
+                    <div class="widget-title">
+                        <i data-lucide="sparkles" class="title-icon icon-gold"></i>
+                        <h2>오늘의 할 일 안내</h2>
+                    </div>
+                    <button id="edit-todo-btn" class="icon-btn" title="할 일 편집">
+                        <i data-lucide="edit-3"></i>
+                    </button>
+                </div>
+                <div class="widget-content">
+                    <div id="todo-display-mode" class="todo-display">
+                        <p id="todo-text-content">📖 오늘 읽을 책을 꺼내고, 30분간 집중해서 책을 읽어봅시다! 독서가 끝나면 독서록 한 줄평을 작성해요.</p>
+                    </div>
+                    <div id="todo-edit-mode" class="todo-edit hidden">
+                        <textarea id="todo-textarea" rows="3" placeholder="오늘의 독서 미션이나 안내사항을 입력하세요..."></textarea>
+                        <div class="edit-actions">
+                            <button id="cancel-todo-btn" class="btn btn-secondary btn-sm">취소</button>
+                            <button id="save-todo-btn" class="btn btn-primary btn-sm">저장</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 교사 제어판 (Teacher Control Panel) -->
+            <div class="widget-card teacher-widget">
+                <div class="widget-header">
+                    <div class="widget-title">
+                        <i data-lucide="sliders" class="title-icon icon-blue"></i>
+                        <h2>교사 제어판</h2>
+                    </div>
+                    <div class="student-count-setup">
+                        <label for="student-count-input">학생 수:</label>
+                        <div class="input-group">
+                            <input type="number" id="student-count-input" min="1" max="60" value="20">
+                            <button id="set-student-count-btn" class="btn btn-secondary btn-sm">설정</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content teacher-controls">
+                    <div class="control-row">
+                        <button id="start-all-btn" class="btn btn-success btn-glow">
+                            <i data-lucide="play-circle"></i>
+                            <span>전체 시작</span>
+                        </button>
+                        <button id="stop-all-btn" class="btn btn-warning btn-glow">
+                            <i data-lucide="pause-circle"></i>
+                            <span>전체 정지</span>
+                        </button>
+                        <button id="reset-all-btn" class="btn btn-danger btn-glow">
+                            <i data-lucide="refresh-cw"></i>
+                            <span>전체 초기화</span>
+                        </button>
+                    </div>
+                    <div class="statistics-row">
+                        <div class="stat-item">
+                            <span class="stat-label">참여 학생</span>
+                            <span id="active-students-count" class="stat-value">0명</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">총 독서 시간</span>
+                            <span id="total-class-time" class="stat-value">00:00:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 학생 독서 타이머 그리드 -->
+        <main class="students-container">
+            <div id="students-grid" class="students-grid">
+                <!-- Javascript를 통해 학생 카드들이 동적으로 생성됩니다 -->
+            </div>
+        </main>
+
+        <!-- 푸터 -->
+        <footer class="app-footer">
+            <p>&copy; 2026 지혜의 숲 독서 타이머 Dashboard. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- 학생 이름 변경용 모달 -->
+    <div id="name-edit-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>학생 정보 수정</h3>
+                <button id="close-modal-btn" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="edit-student-name">학생 이름/번호</label>
+                    <input type="text" id="edit-student-name" maxlength="15" placeholder="이름을 입력하세요">
+                </div>
+                <input type="hidden" id="edit-student-id">
+            </div>
+            <div class="modal-footer">
+                <button id="modal-cancel-btn" class="btn btn-secondary">취소</button>
+                <button id="modal-save-btn" class="btn btn-primary">변경하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+</html>
