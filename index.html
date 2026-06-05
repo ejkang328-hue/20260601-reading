@@ -86,6 +86,23 @@
                     </div>
                 </div>
                 <div class="widget-content teacher-controls">
+                    <div class="config-row">
+                        <div class="config-item">
+                            <label for="sort-select"><i data-lucide="arrow-down-narrow-wide" class="config-icon"></i> 정렬</label>
+                            <select id="sort-select" class="custom-select">
+                                <option value="id">번호순</option>
+                                <option value="rank">순위순</option>
+                            </select>
+                        </div>
+                        <div class="config-item">
+                            <label for="rows-select"><i data-lucide="layout-grid" class="config-icon"></i> 화면 배치</label>
+                            <select id="rows-select" class="custom-select">
+                                <option value="auto">자동 (바둑판)</option>
+                                <option value="2">2줄에 모두 보기</option>
+                                <option value="3">3줄에 모두 보기</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="control-row">
                         <button id="start-all-btn" class="btn btn-success btn-glow">
                             <i data-lucide="play-circle"></i>
